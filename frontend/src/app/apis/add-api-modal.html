@@ -20,29 +20,45 @@
             <div class="col-sm-7">
                 <input ng-model="api.name" class="form-control">
                 <div class="text-danger" ng-if="errors.name" data-ng-bind="errors.name"></div>
-                <p class="help-block">The API name. If none is specified, will default to the <code>request_host</code> or <code>request_path</code>.</p>
+                <p class="help-block">The API name..</p>
             </div>
         </div>
-        <div class="form-group" ng-class="{'has-error' : errors.request_host}">
-            <label class="col-sm-4 control-label">Request Host
+        <div class="form-group" ng-class="{'has-error' : errors.hosts}">
+            <label class="col-sm-4 control-label">Request Host(s)
                 <br><em><small class="help-block">semi-optional</small></em></label>
             <div class="col-sm-7">
-                <input ng-model="api.request_host" class="form-control">
-                <div class="text-danger" ng-if="errors.request_host" data-ng-bind="errors.request_host"></div>
+                <chips ng-model="api.hosts">
+                    <chip-tmpl>
+                        <div class="default-chip">
+                            {{chip}}
+                            <i class="material-icons" remove-chip>clear</i>
+                        </div>
+                    </chip-tmpl>
+                    <input chip-control/>
+                </chips>
+                <div class="text-danger" ng-if="errors.host" data-ng-bind="errors.host"></div>
                 <p class="help-block">
-                    The public DNS address that points to your API. For example, <code>mockbin.com</code>. At least <code>request_host</code> or <code>request_path</code> or both should be specified.
+                    The public DNS address that points to your API. For example, <code>mockbin.com</code>. At least <code>hosts</code> or <code>paths</code> or both should be specified.
                 </p>
 
             </div>
         </div>
-        <div class="form-group" ng-class="{'has-error' : errors.request_path}">
-            <label class="col-sm-4 control-label">Request Path
+        <div class="form-group" ng-class="{'has-error' : errors.uris}">
+            <label class="col-sm-4 control-label">Request Path(s)
                 <br><em><small class="help-block">semi-optional</small></em></label>
             <div class="col-sm-7">
-                <input ng-model="api.request_path" class="form-control">
-                <div class="text-danger" ng-if="errors.request_path" data-ng-bind="errors.request_path"></div>
+                <chips ng-model="api.uris">
+                    <chip-tmpl>
+                        <div class="default-chip">
+                            {{chip}}
+                            <i class="material-icons" remove-chip>clear</i>
+                        </div>
+                    </chip-tmpl>
+                    <input chip-control/>
+                </chips>
+                <div class="text-danger" ng-if="errors.uris" data-ng-bind="errors.uris"></div>
                 <p class="help-block">
-                    The public path that points to your API. For example, <code>/someservice</code>. At least <code>request_host</code> or <code>request_path</code> or both should be specified.
+                    The public paths that points to your API. For example, <code>/someservice</code>. At least <code>hosts</code> or <code>paths</code> or both should be specified.
                 </p>
             </div>
         </div>
@@ -53,13 +69,13 @@
                 <input
 
                         bs-switch
-                        ng-model="api.strip_request_path"
+                        ng-model="api.strip_uri"
                         switch-size="small"
                         type="checkbox"
                         switch-on-text="YES"
                         switch-off-text="NO"
                 >
-                <!--<select ng-model="api.strip_request_path"-->
+                <!--<select ng-model="api.strip_uri"-->
                         <!--ng-change="updateApi(api)"-->
                         <!--class="form-control"-->
                         <!--ng-options="o.v as o.n for o in [{ n: 'No', v: false }, { n: 'Yes', v: true }]">-->
@@ -74,7 +90,6 @@
                 <br><em><small class="help-block">optional</small></em></label>
             <div class="col-sm-7">
                 <input
-
                         bs-switch
                         ng-model="api.preserve_host"
                         switch-size="small"
@@ -82,13 +97,25 @@
                         switch-on-text="YES"
                         switch-off-text="NO"
                 >
-                <!--<select ng-model="api.preserve_host"-->
-                        <!--ng-change="updateApi(api)"-->
-                        <!--class="form-control"-->
-                        <!--ng-options="o.v as o.n for o in [{ n: 'No', v: false }, { n: 'Yes', v: true }]">-->
-                <!--</select>-->
                 <p class="help-block">
                     Preserves the original <code>Host</code> header sent by the client, instead of replacing it with the <code>hostname</code> of the <code>upstream_url</code>. By default is false.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">HTTPS Only
+                <br><em><small class="help-block">optional</small></em></label>
+            <div class="col-sm-7">
+                <input
+                        bs-switch
+                        ng-model="api.https_only"
+                        switch-size="small"
+                        type="checkbox"
+                        switch-on-text="YES"
+                        switch-off-text="NO"
+                >
+                <p class="help-block">
+                    Forces this API to only serve via HTTPS.
                 </p>
             </div>
         </div>

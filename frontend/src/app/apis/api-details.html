@@ -13,29 +13,45 @@
                 <div class="col-sm-7">
                     <input ng-model="api.name" class="form-control">
                     <div class="text-danger" ng-if="errors.name" data-ng-bind="errors.name"></div>
-                    <p class="help-block">The API name. If none is specified, will default to the <code>request_host</code> or <code>request_path</code>.</p>
+                    <p class="help-block">The API name.</p>
                 </div>
             </div>
-            <div class="form-group" ng-class="{'has-error' : errors.request_host}">
-                <label class="col-sm-4 control-label">Request Host
+            <div class="form-group" ng-class="{'has-error' : errors.hosts}">
+                <label class="col-sm-4 control-label">Request Host(s)
                     <br><em><small class="help-block">semi-optional</small></em></label>
                 <div class="col-sm-7">
-                    <input ng-model="api.request_host" class="form-control">
-                    <div class="text-danger" ng-if="errors.request_host" data-ng-bind="errors.request_host"></div>
+                    <chips ng-model="api.hosts">
+                        <chip-tmpl>
+                            <div class="default-chip">
+                                {{chip}}
+                                <i class="material-icons" remove-chip>clear</i>
+                            </div>
+                        </chip-tmpl>
+                        <input chip-control/>
+                    </chips>
+                    <div class="text-danger" ng-if="errors.hosts" data-ng-bind="errors.hosts"></div>
                     <p class="help-block">
-                        The public DNS address that points to your API. For example, <code>mockbin.com</code>. At least <code>request_host</code> or <code>request_path</code> or both should be specified.
+                        Zero or more public DNS addresses that should route for this API. At least one <code>host</code> or one <code>path</code> should be specified.
                     </p>
 
                 </div>
             </div>
-            <div class="form-group" ng-class="{'has-error' : errors.request_path}">
-                <label class="col-sm-4 control-label">Request Path
+            <div class="form-group" ng-class="{'has-error' : errors.uris}">
+                <label class="col-sm-4 control-label">Request Path(s)
                     <br><em><small class="help-block">semi-optional</small></em></label>
                 <div class="col-sm-7">
-                    <input ng-model="api.request_path" class="form-control">
-                    <div class="text-danger" ng-if="errors.request_path" data-ng-bind="errors.request_path"></div>
+                    <chips ng-model="api.uris">
+                        <chip-tmpl>
+                            <div class="default-chip">
+                                {{chip}}
+                                <i class="material-icons" remove-chip>clear</i>
+                            </div>
+                        </chip-tmpl>
+                        <input chip-control/>
+                    </chips>
+                    <div class="text-danger" ng-if="errors.uris" data-ng-bind="errors.uris"></div>
                     <p class="help-block">
-                        The public path that points to your API. For example, <code>/someservice</code>. At least <code>request_host</code> or <code>request_path</code> or both should be specified.
+                        Zero or more paths that should route for this API. At least one <code>host</code> or one <code>path</code> should be specified.
                     </p>
                 </div>
             </div>
@@ -44,12 +60,12 @@
                     <div class="checkbox">
                         <label>
                             <input
-                                    ng-model="api.strip_request_path"
+                                    ng-model="api.strip_uri"
                                     type="checkbox" value=""><strong>Strip Request Path</strong>
                         </label>
                     </div>
                     <p class="help-block">
-                        Strip the request_path value before proxying the request to the final API. For example a request made to <code>/someservice/hello</code> will be resolved to <code>upstream_url/hello</code>. By default is false.
+                        Strip the paths value before proxying the request to the final API. For example a request made to <code>/someservice/hello</code> will be resolved to <code>upstream_url/hello</code>. By default is false.
                     </p>
                 </div>
             </div>
@@ -65,6 +81,21 @@
                     </div>
                     <p class="help-block">
                         Preserves the original <code>Host</code> header sent by the client, instead of replacing it with the <code>hostname</code> of the <code>upstream_url</code>. By default is false.
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-7">
+
+                    <div class="checkbox">
+                        <label>
+                            <input
+                                ng-model="api.https_only"
+                                type="checkbox" value=""><strong>HTTPS Only</strong>
+                        </label>
+                    </div>
+                    <p class="help-block">
+                        Forces this API to only be served via HTTPS.
                     </p>
                 </div>
             </div>

@@ -13,9 +13,9 @@
 
           $scope.api = {
               name : '',
-              request_host : '',
-              request_path : '',
-              strip_request_path : false,
+              hosts : [],
+              paths : [],
+              strip_uri : false,
               preserve_host: false,
               upstream_url : ''
           }
